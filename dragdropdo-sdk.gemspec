@@ -4,9 +4,9 @@ Gem::Specification.new do |spec|
   spec.authors       = [""]
   spec.email         = [""]
 
-  spec.summary       = "Official Ruby client library for the D3 Business API"
-  spec.description   = "Official Ruby client library for the D3 Business API. Provides a simple and elegant interface for developers to interact with D3's file processing services."
-  spec.homepage      = "https://github.com/d3/dragdropdo-sdk-ruby"
+  spec.summary       = "Official Ruby client library for the Dragdropdo Business API"
+  spec.description   = "Official Ruby client library for the Dragdropdo Business API. Provides a simple and elegant interface for developers to interact with Dragdropdo's file processing services."
+  spec.homepage      = "https://github.com/dragdropdo/dragdropdo-sdk-ruby"
   spec.license       = "ISC"
 
   spec.files         = Dir["lib/**/*", "README.md", "LICENSE"]
