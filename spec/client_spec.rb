@@ -40,7 +40,7 @@ RSpec.describe D3RubyClient::Dragdropdo do
 
     it "uploads a file with multipart flow" do
       # Mock presigned URL request
-      stub_request(:post, "#{API_BASE}/v1/external/upload")
+      stub_request(:post, "#{API_BASE}/api/v1/initiate-upload")
         .to_return(
           status: 200,
           body: {
@@ -63,7 +63,7 @@ RSpec.describe D3RubyClient::Dragdropdo do
         .to_return(status: 200, headers: { "ETag" => '"etag-part-2"' })
 
       # Mock complete upload
-      stub_request(:post, "#{API_BASE}/v1/external/complete-upload")
+      stub_request(:post, "#{API_BASE}/api/v1/complete-upload")
         .to_return(
           status: 200,
           body: {
@@ -91,7 +91,7 @@ RSpec.describe D3RubyClient::Dragdropdo do
   describe "#convert and #poll_status" do
     it "creates an operation and polls status to completion" do
       # Mock create operation
-      stub_request(:post, "#{API_BASE}/v1/external/do")
+      stub_request(:post, "#{API_BASE}/api/v1/do")
         .to_return(
           status: 200,
           body: {
@@ -104,7 +104,7 @@ RSpec.describe D3RubyClient::Dragdropdo do
 
       # Mock status calls (queued then completed) - need multiple responses for polling
       # First call: queued
-      stub_request(:get, "#{API_BASE}/v1/external/status/task-123")
+      stub_request(:get, "#{API_BASE}/api/v1/status/task-123")
         .to_return(
           status: 200,
           body: {
@@ -119,7 +119,7 @@ RSpec.describe D3RubyClient::Dragdropdo do
         )
       
       # Second call: completed (after polling interval)
-      stub_request(:get, "#{API_BASE}/v1/external/status/task-123")
+      stub_request(:get, "#{API_BASE}/api/v1/status/task-123")
         .to_return(
           status: 200,
           body: {
@@ -138,7 +138,7 @@ RSpec.describe D3RubyClient::Dragdropdo do
         )
       
       # Additional calls: also return completed (in case of extra polls)
-      stub_request(:get, "#{API_BASE}/v1/external/status/task-123")
+      stub_request(:get, "#{API_BASE}/api/v1/status/task-123")
         .to_return(
           status: 200,
           body: {
@@ -175,7 +175,7 @@ RSpec.describe D3RubyClient::Dragdropdo do
 
   describe "#check_supported_operation" do
     it "checks if an operation is supported" do
-      stub_request(:post, "#{API_BASE}/v1/external/supported-operation")
+      stub_request(:post, "#{API_BASE}/api/v1/supported-operation")
         .to_return(
           status: 200,
           body: {
@@ -198,7 +198,7 @@ RSpec.describe D3RubyClient::Dragdropdo do
 
   describe "#convert" do
     it "creates a convert operation" do
-      stub_request(:post, "#{API_BASE}/v1/external/do")
+      stub_request(:post, "#{API_BASE}/api/v1/do")
         .with(
           body: hash_including(
             action: "convert",
@@ -223,7 +223,7 @@ RSpec.describe D3RubyClient::Dragdropdo do
 
   describe "#compress" do
     it "creates a compress operation" do
-      stub_request(:post, "#{API_BASE}/v1/external/do")
+      stub_request(:post, "#{API_BASE}/api/v1/do")
         .with(
           body: hash_including(
             action: "compress",

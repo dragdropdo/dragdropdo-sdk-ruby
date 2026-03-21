@@ -76,7 +76,7 @@ module D3RubyClient
 
       begin
         # Step 1: Request presigned URLs
-        upload_response = request(:post, "/v1/biz/initiate-upload", {
+        upload_response = request(:post, "/api/v1/initiate-upload", {
           file_name: file_name,
           size: file_size,
           mime_type: detected_mime_type,
@@ -151,7 +151,7 @@ module D3RubyClient
 
         # Step 3: Complete the multipart upload
         begin
-          request(:post, "/v1/biz/complete-upload", {
+          request(:post, "/api/v1/complete-upload", {
             file_key: file_key,
             upload_id: upload_id,
             object_name: object_name,
@@ -189,7 +189,7 @@ module D3RubyClient
       raise D3ValidationError, "Extension (ext) is required" if ext.nil? || ext.empty?
 
       begin
-        response = request(:post, "/v1/biz/supported-operation", {
+        response = request(:post, "/api/v1/supported-operation", {
           ext: ext,
           action: action,
           parameters: parameters,
@@ -227,7 +227,7 @@ module D3RubyClient
       raise D3ValidationError, "At least one file key is required" if file_keys.nil? || file_keys.empty?
 
       begin
-        response = request(:post, "/v1/biz/do", {
+        response = request(:post, "/api/v1/do", {
           action: action,
           file_keys: file_keys,
           parameters: parameters,
@@ -333,7 +333,7 @@ module D3RubyClient
       raise D3ValidationError, "main_task_id is required" if main_task_id.nil? || main_task_id.empty?
 
       begin
-        url = "/v1/biz/status/#{main_task_id}"
+        url = "/api/v1/status/#{main_task_id}"
         url += "/#{file_task_id}" if file_task_id
 
         response = request(:get, url)
@@ -352,11 +352,14 @@ module D3RubyClient
               file.is_a?(Hash) ? file.transform_keys(&:to_sym) : file
             end
           end
+          # Normalize status to lowercase
+          result[:operation_status] = result[:operation_status].to_s.downcase if result[:operation_status]
           # Add camelCase aliases
           result[:operationStatus] = result[:operation_status] if result[:operation_status]
           result[:filesData] = result[:files_data] if result[:files_data]
           if result[:files_data].is_a?(Array)
             result[:files_data] = result[:files_data].map do |file|
+              file[:status] = file[:status].to_s.downcase if file[:status]
               file[:downloadLink] = file[:download_link] if file[:download_link]
               file[:errorCode] = file[:error_code] if file[:error_code]
               file[:errorMessage] = file[:error_message] if file[:error_message]
