@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    d3-ruby-client (1.0.0)
+    dragdropdo-sdk (1.0.0)
       faraday (~> 2.0)
       faraday-multipart (~> 1.0)
 
@@ -55,7 +55,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  d3-ruby-client!
+  dragdropdo-sdk!
   rspec (~> 3.0)
   webmock (~> 3.0)
 

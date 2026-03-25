@@ -178,7 +178,7 @@ Create a file operation (convert, compress, merge, zip, etc.).
 
 **Parameters:**
 
-- `action` (required) - Action to perform: `'convert'`, `'compress'`, `'merge'`, `'zip'`, `'share'`, `'lock'`, `'unlock'`, `'reset_password'`
+- `action` (required) - Action to perform: `'convert'`, `'compress'`, `'merge'`, `'zip'`, `'lock'`, `'unlock'`, `'reset_password'`
 - `file_keys` (required) - Array of file keys from upload
 - `parameters` (optional) - Action-specific parameters
 - `notes` (optional) - User metadata
@@ -225,12 +225,6 @@ client.merge(file_keys: ['file-key-1', 'file-key-2'])
 client.zip(file_keys: ['file-key-1', 'file-key-2'])
 ```
 
-**Share:**
-
-```ruby
-client.share(file_keys: ['file-key-123'])
-```
-
 **Lock PDF:**
 
 ```ruby
@@ -257,14 +251,14 @@ client.reset_pdf_password(
 
 ### Get Status
 
-#### `get_status(main_task_id:, file_task_id: nil)`
+#### `get_status(main_task_id:, file_key: nil)`
 
 Get the current status of an operation.
 
 **Parameters:**
 
 - `main_task_id` (required) - Main task ID from operation creation
-- `file_task_id` (optional) - Specific file task ID
+- `file_key` (optional) - Input file key for specific file status
 
 **Returns:** Hash with operation and file statuses
 
@@ -274,24 +268,24 @@ Get the current status of an operation.
 # Get main task status
 status = client.get_status(main_task_id: 'task-123')
 
-# Get specific file task status
+# Get specific file status by file key
 status = client.get_status(
   main_task_id: 'task-123',
-  file_task_id: 'file-task-456'
+  file_key: 'file-key-456'
 )
 
 puts "Operation status: #{status[:operation_status]}"
 # Possible values: 'queued', 'running', 'completed', 'failed'
 ```
 
-#### `poll_status(main_task_id:, file_task_id: nil, interval: 2000, timeout: 300000, on_update: nil)`
+#### `poll_status(main_task_id:, file_key: nil, interval: 2000, timeout: 300000, on_update: nil)`
 
 Poll operation status until completion or failure.
 
 **Parameters:**
 
 - `main_task_id` (required) - Main task ID
-- `file_task_id` (optional) - Specific file task ID
+- `file_key` (optional) - Input file key for specific file status
 - `interval` (optional) - Polling interval in milliseconds (default: `2000`)
 - `timeout` (optional) - Maximum polling duration in milliseconds (default: `300000` = 5 minutes)
 - `on_update` (optional) - Callback for each status update

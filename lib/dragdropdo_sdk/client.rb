@@ -286,11 +286,6 @@ module D3RubyClient
       create_operation(action: "zip", file_keys: file_keys, notes: notes)
     end
 
-    # Share files (generate shareable links)
-    def share(file_keys:, notes: nil)
-      create_operation(action: "share", file_keys: file_keys, notes: notes)
-    end
-
     # Lock PDF with password
     def lock_pdf(file_keys:, password:, notes: nil)
       create_operation(
@@ -327,14 +322,14 @@ module D3RubyClient
     # Get operation status
     #
     # @param main_task_id [String] Main task ID
-    # @param file_task_id [String] Optional specific file task ID
+    # @param file_key [String] Optional input file key for specific file status
     # @return [Hash] Status response
-    def get_status(main_task_id:, file_task_id: nil)
+    def get_status(main_task_id:, file_key: nil)
       raise D3ValidationError, "main_task_id is required" if main_task_id.nil? || main_task_id.empty?
 
       begin
         url = "/api/v1/status/#{main_task_id}"
-        url += "/#{file_task_id}" if file_task_id
+        url += "/#{file_key}" if file_key
 
         response = request(:get, url)
         data = if response.is_a?(Hash)
@@ -382,12 +377,12 @@ module D3RubyClient
     # Poll operation status until completion or failure
     #
     # @param main_task_id [String] Main task ID
-    # @param file_task_id [String] Optional specific file task ID
+    # @param file_key [String] Optional input file key for specific file status
     # @param interval [Integer] Polling interval in milliseconds (default: 2000)
     # @param timeout [Integer] Maximum polling duration in milliseconds (default: 300000)
     # @param on_update [Proc] Optional callback for each status update
     # @return [Hash] Status response with final status
-    def poll_status(main_task_id:, file_task_id: nil, interval: 2000, timeout: 300_000, on_update: nil)
+    def poll_status(main_task_id:, file_key: nil, interval: 2000, timeout: 300_000, on_update: nil)
       start_time = Time.now.to_f * 1000
 
       loop do
@@ -397,7 +392,7 @@ module D3RubyClient
         end
 
         # Get status
-        status = get_status(main_task_id: main_task_id, file_task_id: file_task_id)
+        status = get_status(main_task_id: main_task_id, file_key: file_key)
 
         # Call update callback
         on_update&.call(status)

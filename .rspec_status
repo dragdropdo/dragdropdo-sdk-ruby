@@ -1,10 +1,10 @@
 example_id                        | status | run_time        |
 --------------------------------- | ------ | --------------- |
-./spec/client_live_spec.rb[1:1:1] | failed | 5.11 seconds    |
-./spec/client_spec.rb[1:1:1]      | passed | 0.00097 seconds |
-./spec/client_spec.rb[1:1:2]      | passed | 0.00071 seconds |
-./spec/client_spec.rb[1:2:1]      | passed | 0.08495 seconds |
-./spec/client_spec.rb[1:3:1]      | passed | 0.0038 seconds  |
-./spec/client_spec.rb[1:4:1]      | passed | 0.00164 seconds |
-./spec/client_spec.rb[1:5:1]      | passed | 0.00146 seconds |
-./spec/client_spec.rb[1:6:1]      | passed | 0.00099 seconds |
+./spec/client_live_spec.rb[1:1:1] | failed | 8.1 seconds     |
+./spec/client_spec.rb[1:1:1]      | passed | 0.00153 seconds |
+./spec/client_spec.rb[1:1:2]      | passed | 0.00153 seconds |
+./spec/client_spec.rb[1:2:1]      | passed | 0.06664 seconds |
+./spec/client_spec.rb[1:3:1]      | passed | 0.00544 seconds |
+./spec/client_spec.rb[1:4:1]      | passed | 0.00282 seconds |
+./spec/client_spec.rb[1:5:1]      | passed | 0.00256 seconds |
+./spec/client_spec.rb[1:6:1]      | passed | 0.00161 seconds |
